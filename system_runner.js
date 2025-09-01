@@ -1,4 +1,4 @@
-const canvasWidth = 540;
+const canvasWidth = 480;
 const canvasHeight = 960;
 
 
@@ -54,7 +54,7 @@ function setup() {
   song = loadSound('song.mp3', songLoaded, songLoadedError, songLoadedSoFar);  
   
   frameRate(60);
-  angleMode(DEGREES);
+  angleMode(RADIANS);
 
   // create text inputs
   textInput = createInput('words...');
