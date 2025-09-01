@@ -2,6 +2,7 @@
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   background(20)
+
   textFont('Verdana'); // please use CSS safe fonts
   rectMode(CENTER)
   textSize(24);
@@ -9,37 +10,6 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
    let bar_spacing = height / 10;
    let bar_height = width / 12;
    let bar_pos_x = width / 2;
-  
-   r=map(vocal,0,100,0,255)
-   g= map(drum,0,100,0,255)
-   b= map(bass,0,100,0,255)
-   col=map(other,0,100,0,255)
- 
-   noStroke()
-   fill(r,g,0)
-   for(let x=0 ; x<width ; x +=80){
-         ellipse(x,500,10, 10)
-         rect(x, 500, 15, 8*vocal)
-   }
-   fill(r,0,b)
-   for(let x=20 ; x<width ; x +=80){
-         ellipse(x,500,10, 10)
-         rect(x, 500, 15, 8*drum)
-   }
-   fill(0,g,b)
-    for(let x=40 ; x<width ; x +=80){
-         ellipse(x,500,10, 10)
-         rect(x, 500, 15, 8*bass)
-   }
-  fill(r,g,col)
-    for(let x=60 ; x<width ; x +=80){
-         ellipse(x,500,10, 10)
-         rect(x, 500, 15, 8*other)
-   }
-  
-
-   
-
 // // changes 
 //    // vocal bar is red
 //    fill(200, 0, 0);
@@ -70,4 +40,30 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
 //    textAlign(CENTER);
 //    textSize(vocal);
 //    text(words, width/2, height/3);
+}
+
+
+function draw_star() {
+  background(20)
+  push();
+  translate(width * 0.5, height * 0.5);
+  rotate(frameCount / -150.0);
+  fill(200,100,0)
+  star(0, 0, 30, 70, 5);
+  pop();
+}
+
+function star(x, y, radius1, radius2, npoints) {
+  let angle = TWO_PI / npoints;
+  let halfAngle = angle / 2.0;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = x + cos(a) * radius2;
+    let sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a + halfAngle) * radius1;
+    sy = y + sin(a + halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
 }
