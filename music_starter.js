@@ -26,7 +26,7 @@ function updateAndDrawMeteors(vocal, drum, bass, other) {
   noFill();
   const loudnessGlobal = Math.max(vocal, drum, bass, other);
   strokeWeight(map(loudnessGlobal, 0, 100, 1.5, 3, true));
-  const vanishY = height * 0.75; // 在画布高度的 3/4 处消失
+  const vanishY = height * 0.5; // 在画布高度的 3/4 处消失
   for (let i = meteors.length - 1; i >= 0; i--) {
     const m = meteors[i];
     m.x += m.vx;
@@ -67,12 +67,12 @@ function updateAndDrawMeteors(vocal, drum, bass, other) {
 
 function maybeSpawnMeteors(drum, bass, counter) {
   const maxMeteors = 20;
-  let p = map(drum, 0, 100, 0.08, 0.35, true); // 提高基础生成概率
+  let p = map(drum, 0, 100, 0.09, 0.35, true); // 提高基础生成概率
   if (random() < p) {
     meteors.push(spawnMeteor(bass));
   }
   // 提高保底频率：每 60 帧（~1 秒）生成一颗
-  if (counter % 60 === 0) {
+  if (counter / 60 === 0) {
     meteors.push(spawnMeteor(bass));
   }
   // 强鼓点时额外生成
@@ -84,25 +84,52 @@ function maybeSpawnMeteors(drum, bass, counter) {
     meteors.splice(0, meteors.length - maxMeteors);
   }
 }
+// image
+let firstRun = true;
+let myImage1;
+let secondRun =true;
+let myImage2;
 
 /// vocal, drum, bass, and other are volumes ranging from 0 to 100
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   background(20, 24, 54)
 
-  textFont('Verdana'); // please use CSS safe fonts
+  textFont('Garamond'); // please use CSS safe fonts
   rectMode(CENTER)
   textSize(24);
+  
+  
 
-  // let starSpeed = map(bass,0,100, 1, .1);
-  // push();
-  // translate(width /2, height /3);
-  // rotate((frameCount / 50) + starSpeed);
-  // fill(242, 239, 52, 99)
-  // star(0, 0, 30+bass/2, 70+bass, 5);
-  // pop();
+  if(secondRun){
+    myImage2 = loadImage('background.png')
+    
+    secondRun = false;
 
+  }
+   image(myImage2, 0, 0, width, height);
+
+  if(firstRun){
+    myImage1 = loadImage('moon.png')
+    
+    firstRun = false;
+
+  }
+  
+   image(myImage1, width/0.75,  height*0.1, 160, 160);
+
+    let starSpeed = map(bass,0,100, 1, .1);
+    push();
+    translate(width /2, height /3);
+    rotate((frameCount / 50) + starSpeed);
+    stroke(255);
+    noFill();
+    star(0, 0, 100+bass/2, 190+bass, 5);
+    pop();
+  
+  fill(255);
   // display "words"
    textAlign(CENTER);
+   
    textSize(vocal);
    text(words, width/2, height/3);
   
@@ -111,7 +138,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   updateAndDrawMeteors(vocal, drum, bass, other);
 }
 
-
+//star
 function star(x, y, radius1, radius2, npoints) {
   let angle = TWO_PI / npoints;
   let halfAngle = angle / 2.0;
